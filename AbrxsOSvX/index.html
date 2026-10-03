@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#07090f" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="description" content="AbrxsOSvX · Hub público para Editorial OS, Editorial Emulator y ABRAXAS Publisher." />
+  <title>AbrxsOSvX · Command Deck</title>
+  <style>
+    :root{
+      --bg:#05070b;
+      --bg2:#090c13;
+      --panel:rgba(15,19,29,.62);
+      --panel-strong:rgba(15,20,31,.82);
+      --line:rgba(255,255,255,.105);
+      --line2:rgba(139,246,255,.18);
+      --text:#f5f8ff;
+      --muted:#94a0b7;
+      --cyan:#70f5ff;
+      --lime:#d9ff5c;
+      --violet:#a489ff;
+      --blue:#5ea0ff;
+      --red:#ff6e88;
+      --radius:28px;
+      --shadow:0 28px 80px rgba(0,0,0,.42);
+    }
+    *{box-sizing:border-box}
+    html{background:var(--bg);scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;background:
+      radial-gradient(circle at 15% 15%,rgba(82,120,255,.12),transparent 35%),
+      radial-gradient(circle at 85% 8%,rgba(112,245,255,.08),transparent 28%),
+      linear-gradient(180deg,#05070b 0%,#080b12 54%,#05070b 100%);
+      color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,system-ui,sans-serif;overflow-x:hidden}
+    a{color:inherit}
+    button,a{-webkit-tap-highlight-color:transparent}
+    #three-root{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.88}
+    #three-root canvas{display:block;width:100%!important;height:100%!important}
+    .noise{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E")}
+    .scanlines{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.06;background:repeating-linear-gradient(180deg,transparent 0,transparent 3px,rgba(255,255,255,.18) 4px)}
+    .app-shell{position:relative;z-index:2;min-height:100vh}
+    .wrap{width:min(1220px,calc(100% - 36px));margin:0 auto}
+    .topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(5,7,11,.9),rgba(5,7,11,.54));backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%)}
+    .topbar-in{height:72px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .mark{position:relative;width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(112,245,255,.98),rgba(164,137,255,.9));color:#051015;font-size:16px;font-weight:1000;box-shadow:0 0 28px rgba(112,245,255,.22)}
+    .mark:after{content:"";position:absolute;inset:1px;border-radius:12px;border:1px solid rgba(255,255,255,.7);opacity:.35}
+    .brand-copy{display:flex;flex-direction:column;min-width:0}
+    .brand-copy strong{font-size:14px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+    .brand-copy span{font-size:11px;color:var(--muted);letter-spacing:.06em;white-space:nowrap}
+    .system-pill{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:0 12px;border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:999px;color:#c9d3e5;font-size:11px;font-weight:800;letter-spacing:.04em;white-space:nowrap}
+    .system-dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 14px rgba(217,255,92,.72)}
+    .hero{padding:92px 0 54px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:48px;align-items:end}
+    .eyebrow{display:flex;align-items:center;gap:10px;color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;margin-bottom:20px}
+    .eyebrow:before{content:"";width:34px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+    .hero h1{font-size:clamp(58px,9.2vw,128px);line-height:.82;letter-spacing:-.075em;margin:0;max-width:920px;font-weight:900}
+    .hero h1 .ghost{display:block;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.34);text-shadow:0 0 36px rgba(112,245,255,.1)}
+    .hero-desc{max-width:560px;margin:24px 0 0;color:#aab4c7;font-size:clamp(17px,1.8vw,21px);line-height:1.55;letter-spacing:-.01em}
+    .hero-side{border:1px solid var(--line);border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.018));backdrop-filter:blur(18px);padding:20px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .hero-side:before{content:"";position:absolute;left:-20%;top:-70%;width:100%;height:180%;background:linear-gradient(90deg,transparent,rgba(112,245,255,.08),transparent);transform:rotate(26deg);animation:sweep 8s linear infinite}
+    @keyframes sweep{to{transform:translateX(180%) rotate(26deg)}}
+    .side-label{font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:var(--muted);font-weight:850}
+    .side-value{font-size:34px;letter-spacing:-.04em;font-weight:850;margin:7px 0 16px}
+    .side-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .side-cell{border:1px solid var(--line);background:rgba(4,7,12,.46);border-radius:14px;padding:11px}
+    .side-cell b{display:block;font-size:18px;letter-spacing:-.03em}
+    .side-cell span{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:18px;margin:26px 0 16px}
+    .section-head h2{font-size:clamp(30px,4vw,48px);letter-spacing:-.045em;margin:0}
+    .section-head p{max-width:520px;color:var(--muted);font-size:13px;line-height:1.55;margin:0;text-align:right}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;padding-bottom:36px}
+    .app-card{grid-column:span 4;min-height:390px;position:relative;overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(155deg,rgba(19,24,36,.83),rgba(8,11,18,.7));backdrop-filter:blur(22px) saturate(130%);box-shadow:var(--shadow);transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .35s;isolation:isolate}
+    .app-card:hover{transform:translateY(-7px);border-color:rgba(112,245,255,.3);box-shadow:0 36px 110px rgba(0,0,0,.52),0 0 0 1px rgba(112,245,255,.06) inset}
+    .card-orbit{position:absolute;width:260px;height:260px;border:1px solid rgba(255,255,255,.085);border-radius:50%;right:-105px;top:-105px;opacity:.9}
+    .card-orbit:before,.card-orbit:after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.06);inset:30px}.card-orbit:after{inset:67px;border-color:rgba(112,245,255,.17)}
+    .card-glow{position:absolute;width:240px;height:240px;border-radius:50%;filter:blur(52px);opacity:.16;right:-80px;top:-80px;z-index:-1}
+    .app-card[data-tone="cyan"] .card-glow{background:var(--cyan)}
+    .app-card[data-tone="violet"] .card-glow{background:var(--violet)}
+    .app-card[data-tone="lime"] .card-glow{background:var(--lime)}
+    .card-inner{height:100%;display:flex;flex-direction:column;padding:22px}
+    .card-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .app-icon{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.15);background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.025));font-weight:950;font-size:15px;letter-spacing:-.03em;box-shadow:0 12px 32px rgba(0,0,0,.22)}
+    .status{display:flex;align-items:center;gap:7px;color:#a9b4c6;font-size:10px;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
+    .status i{width:7px;height:7px;border-radius:50%;background:#687385}
+    .status[data-state="online"] i{background:var(--lime);box-shadow:0 0 13px rgba(217,255,92,.6)}
+    .status[data-state="checking"] i{background:var(--cyan);animation:pulse 1.25s ease-in-out infinite}
+    .status[data-state="offline"] i{background:var(--red)}
+    @keyframes pulse{50%{opacity:.28;transform:scale(.75)}}
+    .card-kicker{margin-top:38px;color:var(--muted);font-size:10px;font-weight:850;letter-spacing:.13em;text-transform:uppercase}
+    .app-card h3{font-size:34px;line-height:.96;letter-spacing:-.05em;margin:8px 0 13px;max-width:260px}
+    .app-card p{color:#9ca8bc;font-size:14px;line-height:1.55;margin:0;max-width:310px}
+    .card-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:18px}
+    .tag{display:inline-flex;align-items:center;min-height:27px;padding:0 9px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.028);font-size:9px;font-weight:800;color:#bcc7d8;text-transform:uppercase;letter-spacing:.06em}
+    .card-actions{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:auto;padding-top:25px}
+    .open-btn,.repo-btn{min-height:46px;border-radius:14px;text-decoration:none;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;letter-spacing:.02em;transition:transform .2s,background .2s,border-color .2s}
+    .open-btn{background:var(--text);color:#071016;border:1px solid rgba(255,255,255,.7)}
+    .open-btn:hover{transform:translateY(-2px);background:#fff}
+    .repo-btn{width:46px;border:1px solid var(--line);background:rgba(255,255,255,.04);font-size:15px}
+    .repo-btn:hover{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08)}
+    .dock{margin:6px 0 58px;border:1px solid var(--line);border-radius:24px;background:rgba(11,15,23,.64);backdrop-filter:blur(18px);overflow:hidden;display:grid;grid-template-columns:1.4fr repeat(3,1fr);box-shadow:var(--shadow)}
+    .dock-cell{min-height:112px;padding:18px;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between}
+    .dock-cell:last-child{border-right:0}
+    .dock-title{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-weight:850}
+    .dock b{font-size:18px;letter-spacing:-.03em}
+    .dock code{font:11px ui-monospace,SFMono-Regular,Menlo,monospace;color:#bdc8db;overflow-wrap:anywhere}
+    .footer{padding:18px 0 calc(38px + env(safe-area-inset-bottom));border-top:1px solid var(--line);color:#728097;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+    .footer-in{display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .footer a{text-decoration:none;color:#a9b6c9}
+    @media(max-width:940px){.hero{grid-template-columns:1fr;gap:30px;padding-top:68px}.hero-side{max-width:600px}.app-card{grid-column:span 6}.dock{grid-template-columns:1fr 1fr}.dock-cell:nth-child(2){border-right:0}.dock-cell:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+    @media(max-width:660px){.wrap{width:min(100% - 22px,1220px)}.topbar-in{height:62px}.brand-copy span{display:none}.system-pill{padding:0 10px}.hero{padding:52px 0 38px}.hero h1{font-size:clamp(55px,19vw,86px)}.hero-desc{font-size:16px}.section-head{align-items:start;flex-direction:column}.section-head p{text-align:left}.app-card{grid-column:1/-1;min-height:360px}.dock{grid-template-columns:1fr}.dock-cell{border-right:0;border-bottom:1px solid var(--line)!important}.dock-cell:last-child{border-bottom:0!important}.footer-in{align-items:flex-start;flex-direction:column}.side-value{font-size:28px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important}.app-card{transition:none}}
+  </style>
+</head>
+<body>
+  <div id="three-root" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div id="root"></div>
+
+  <script type="module">
+    import React, {useEffect, useMemo, useState} from 'https://esm.sh/react@19.1.1';
+    import {createRoot} from 'https://esm.sh/react-dom@19.1.1/client';
+    import * as THREE from 'https://esm.sh/three@0.180.0';
+
+    const h=React.createElement;
+    const APPS=[
+      {
+        id:'editorial',
+        name:'Editorial OS',
+        kicker:'Editorial command center',
+        description:'Planificación semanal, producción, notas, sincronización, PWA, Desktop y control mediante MCP.',
+        url:'https://lordjeferies.github.io/editorial-os/',
+        repo:'https://github.com/LordJeferies/editorial-os',
+        icon:'EOS',tone:'cyan',tags:['Planner','Supabase','MCP']
+      },
+      {
+        id:'emulator',
+        name:'Grid Emulator',
+        kicker:'Visual feed simulator',
+        description:'Emulador visual de grillas y feeds para probar escenarios, distribución de piezas y composición antes de publicar.',
+        url:'https://lordjeferies.github.io/editorial-emulator/',
+        repo:'https://github.com/LordJeferies/editorial-emulator',
+        icon:'GRID',tone:'violet',tags:['Grids','Feeds','Scenarios']
+      },
+      {
+        id:'publisher',
+        name:'ABRAXAS Publisher',
+        kicker:'Planning & review',
+        description:'Workspace de planificación, revisión y preparación de publicación para convertir el plan editorial en ejecución.',
+        url:'https://lordjeferies.github.io/abraxas-publisher/',
+        repo:'https://github.com/LordJeferies/abraxas-publisher',
+        icon:'PUB',tone:'lime',tags:['Review','Publish','Workflow']
+      }
+    ];
+
+    function useStatuses(){
+      const [states,setStates]=useState(()=>Object.fromEntries(APPS.map(a=>[a.id,'checking'])));
+      useEffect(()=>{
+        let cancelled=false;
+        Promise.all(APPS.map(async app=>{
+          try{
+            const r=await fetch(app.url,{method:'GET',cache:'no-store'});
+            return [app.id,r.ok?'online':'offline'];
+          }catch{return [app.id,'offline'];}
+        })).then(entries=>{if(!cancelled)setStates(Object.fromEntries(entries));});
+        return()=>{cancelled=true};
+      },[]);
+      return states;
+    }
+
+    function Status({state}){
+      return h('div',{className:'status','data-state':state},h('i'),state==='online'?'Live':state==='offline'?'Check link':'Checking');
+    }
+
+    function AppCard({app,state}){
+      return h('article',{className:'app-card','data-tone':app.tone},
+        h('div',{className:'card-orbit'}),h('div',{className:'card-glow'}),
+        h('div',{className:'card-inner'},
+          h('div',{className:'card-top'},h('div',{className:'app-icon'},app.icon),h(Status,{state})),
+          h('div',{className:'card-kicker'},app.kicker),
+          h('h3',null,app.name),
+          h('p',null,app.description),
+          h('div',{className:'card-meta'},...app.tags.map(t=>h('span',{className:'tag',key:t},t))),
+          h('div',{className:'card-actions'},
+            h('a',{className:'open-btn',href:app.url},'Abrir sistema  ↗'),
+            h('a',{className:'repo-btn',href:app.repo,target:'_blank',rel:'noopener',title:'Abrir repositorio','aria-label':`Repositorio ${app.name}`},'⌘')
+          )
+        )
+      );
+    }
+
+    function App(){
+      const states=useStatuses();
+      const online=useMemo(()=>Object.values(states).filter(v=>v==='online').length,[states]);
+      return h('div',{className:'app-shell'},
+        h('header',{className:'topbar'},h('div',{className:'wrap topbar-in'},
+          h('div',{className:'brand'},h('div',{className:'mark'},'AX'),h('div',{className:'brand-copy'},h('strong',null,'AbrxsOSvX'),h('span',null,'Unified application gateway'))),
+          h('div',{className:'system-pill'},h('span',{className:'system-dot'}),online,' / ',APPS.length,' systems online')
+        )),
+        h('main',{className:'wrap'},
+          h('section',{className:'hero'},
+            h('div',null,
+              h('div',{className:'eyebrow'},'ABRXS operating layer'),
+              h('h1',null,'Abrxs',h('span',{className:'ghost'},'OSvX')),
+              h('p',{className:'hero-desc'},'Un solo punto de entrada para abrir el núcleo editorial, simular las grillas y ejecutar el flujo de publicación.')
+            ),
+            h('aside',{className:'hero-side'},
+              h('div',{className:'side-label'},'System topology'),
+              h('div',{className:'side-value'},'3 connected surfaces'),
+              h('div',{className:'side-grid'},
+                h('div',{className:'side-cell'},h('b',null,'01'),h('span',null,'Plan')),
+                h('div',{className:'side-cell'},h('b',null,'02'),h('span',null,'Simulate')),
+                h('div',{className:'side-cell'},h('b',null,'03'),h('span',null,'Publish'))
+              )
+            )
+          ),
+          h('section',null,
+            h('div',{className:'section-head'},h('h2',null,'Launch systems'),h('p',null,'Cada tarjeta abre la GitHub Page pública correspondiente. Los repositorios siguen siendo independientes; AbrxsOSvX funciona como gateway visual central.')),
+            h('div',{className:'grid'},...APPS.map(app=>h(AppCard,{key:app.id,app,state:states[app.id]})))
+          ),
+          h('section',{className:'dock'},
+            h('div',{className:'dock-cell'},h('span',{className:'dock-title'},'Public gateway'),h('b',null,'AbrxsOSvX'),h('code',null,'lordjeferies.github.io/AbrxsOSvX/')),
+            h('div',{className:'dock-cell'},h('span',{className:'dock-title'},'Editorial'),h('b',null,'Plan + Sync'),h('code',null,'/editorial-os/')),
+            h('div',{className:'dock-cell'},h('span',{className:'dock-title'},'Emulator'),h('b',null,'Visual test'),h('code',null,'/editorial-emulator/')),
+            h('div',{className:'dock-cell'},h('span',{className:'dock-title'},'Publisher'),h('b',null,'Execute'),h('code',null,'/abraxas-publisher/'))
+          )
+        ),
+        h('footer',{className:'footer'},h('div',{className:'wrap footer-in'},h('span',null,'ABRXS · modular operating system'),h('a',{href:'https://github.com/LordJeferies',target:'_blank',rel:'noopener'},'GitHub / LordJeferies ↗')))
+      );
+    }
+
+    function initThree(){
+      const root=document.getElementById('three-root');
+      if(!root)return;
+      const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const scene=new THREE.Scene();
+      const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,.1,100);
+      camera.position.set(0,0,7.4);
+      const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'low-power'});
+      renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));
+      renderer.setSize(innerWidth,innerHeight);
+      renderer.setClearColor(0x000000,0);
+      root.appendChild(renderer.domElement);
+
+      const group=new THREE.Group();scene.add(group);
+      const ico=new THREE.IcosahedronGeometry(1.55,2);
+      const wire=new THREE.WireframeGeometry(ico);
+      const lines=new THREE.LineSegments(wire,new THREE.LineBasicMaterial({color:0x70f5ff,transparent:true,opacity:.13}));
+      lines.position.set(2.8,.5,-1.8);group.add(lines);
+
+      const ringGeo=new THREE.TorusGeometry(2.75,.008,4,180);
+      const ring1=new THREE.Mesh(ringGeo,new THREE.MeshBasicMaterial({color:0xa489ff,transparent:true,opacity:.19}));
+      ring1.rotation.set(1.2,.4,.5);ring1.position.set(-2.7,-1.1,-2.4);group.add(ring1);
+      const ring2=ring1.clone();ring2.scale.set(.72,.72,.72);ring2.rotation.set(.3,1.15,.2);ring2.material=ring1.material.clone();ring2.material.color.setHex(0xd9ff5c);ring2.material.opacity=.11;group.add(ring2);
+
+      const count=800;
+      const positions=new Float32Array(count*3);
+      for(let i=0;i<count;i++){
+        const r=4+Math.random()*9,theta=Math.random()*Math.PI*2,phi=Math.acos(2*Math.random()-1);
+        positions[i*3]=Math.sin(phi)*Math.cos(theta)*r;
+        positions[i*3+1]=Math.sin(phi)*Math.sin(theta)*r;
+        positions[i*3+2]=Math.cos(phi)*r-3;
+      }
+      const pgeo=new THREE.BufferGeometry();pgeo.setAttribute('position',new THREE.BufferAttribute(positions,3));
+      const pts=new THREE.Points(pgeo,new THREE.PointsMaterial({color:0xa9c7ff,size:.018,transparent:true,opacity:.52,sizeAttenuation:true}));scene.add(pts);
+
+      let mx=0,my=0;
+      const mouse=e=>{mx=(e.clientX/innerWidth-.5);my=(e.clientY/innerHeight-.5)};
+      addEventListener('pointermove',mouse,{passive:true});
+      const resize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.7))};
+      addEventListener('resize',resize,{passive:true});
+      const clock=new THREE.Clock();
+      function frame(){
+        const t=clock.getElapsedTime();
+        if(!reduced){
+          lines.rotation.x=t*.035;lines.rotation.y=t*.052;
+          ring1.rotation.z=t*.024;ring2.rotation.x=t*.018;
+          pts.rotation.y=t*.0045;
+          group.rotation.y+=(mx*.08-group.rotation.y)*.012;
+          group.rotation.x+=(-my*.05-group.rotation.x)*.012;
+        }
+        renderer.render(scene,camera);requestAnimationFrame(frame);
+      }
+      frame();
+    }
+
+    createRoot(document.getElementById('root')).render(h(App));
+    initThree();
+  </script>
+</body>
+</html>
