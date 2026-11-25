@@ -1,0 +1,119 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Quiniela Miss Universo 2026</title><style>*{box-sizing:border-box}body{margin:0;background:#151219;color:#f8f1e9;font:16px system-ui}main{max-width:900px;margin:auto;padding:24px 16px 110px}header{text-align:center;padding:20px 0}h1{font:42px Georgia;margin:8px 0;color:#efcc88}small,p{color:#bcb1c2}input,button,select{font:inherit;border-radius:12px;padding:12px;border:1px solid #514252;background:#231e2a;color:inherit}input{width:100%;margin:8px 0}button{cursor:pointer}button:disabled{opacity:.45;cursor:default}.gold{background:#efcc88;color:#211821;font-weight:bold;border:0}.bar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.bar>*{flex:1}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px}.candidate{display:flex;align-items:center;gap:9px;text-align:left;padding:8px;min-height:85px}.candidate img,.placeholder{width:48px;height:64px;object-fit:cover;border-radius:7px;background:#3c3143;flex-shrink:0}.placeholder{display:grid;place-items:center;color:#efcc88}.candidate strong{display:block;font-size:14px}.candidate small{display:block;font-size:11px}.chosen{border-color:#efcc88;background:#433523}.panel{background:#211b27;border:1px solid #42364a;border-radius:16px;padding:16px;margin:12px 0}.sticky{position:fixed;bottom:0;left:0;right:0;background:#211b27ee;padding:12px;display:flex;gap:8px;justify-content:center;backdrop-filter:blur(12px)}.sticky button{max-width:350px;flex:1}a{color:#efcc88}#summary{white-space:pre-wrap;line-height:1.6}#status{color:#efcc88;min-height:24px}h2{margin:6px 0} .pill{display:inline-block;margin:3px;padding:6px 10px;border:1px solid #786345;border-radius:20px;font-size:13px}
+body{font-size:16px}main{padding-bottom:125px}.sticky{padding-bottom:calc(12px + env(safe-area-inset-bottom));z-index:10}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.candidate{min-width:0;overflow-wrap:anywhere;min-height:80px}.candidate small{font-size:12px}.candidate img,.placeholder{width:46px;height:60px}.panel{padding:12px}button:focus-visible{outline:2px solid #efcc88}#picks{display:flex;flex-wrap:wrap;gap:4px}.pill{margin:0}.bar select{min-width:0}#summary{font-size:14px}#notice{color:#efcc88;min-height:24px}#search{scroll-margin-top:10px} @media(min-width:650px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}} @media(max-width:350px){.grid{grid-template-columns:1fr}} .grid{grid-template-columns:1fr!important;gap:5px}.candidate{width:100%;min-height:64px;padding:7px 12px;gap:12px}.candidate img,.placeholder{width:42px;height:52px}.candidate strong{font-size:17px}.candidate small{font-size:13px}.candidate span:last-child{flex:1}.candidate:after{content:"○";font-size:24px;color:#a79bab}.candidate.chosen:after{content:"✓";color:#efcc88} #catalogCount{font-size:13px;color:#efcc88;margin:8px 0} </style></head><body><main><header><small>75ª EDICIÓN · PUERTO RICO</small><h1>Miss Universo</h1><div style="letter-spacing:5px;color:#efcc88">2026 · TOP 30</div></header><section class="panel"><label for="name">Nombre del participante</label><input id="name" placeholder="Escribe tu nombre" maxlength="60"><div class="bar"><button onclick="newPlayer()">+ Nueva persona</button><select id="saved" onchange="loadPlayer(this.value)"><option value="">Quinielas guardadas</option></select></div></section><div class="bar"><button id="b12" onclick="setStage(12)">Top 12</button><button id="b5" onclick="setStage(5)">Top 5</button></div><section class="panel"><h2 id="heading"></h2><p id="hint"></p><div id="picks"></div><input id="search" placeholder="Buscar país o candidata" oninput="render()"><div id="status" role="status"></div><div id="catalogCount"></div><div id="grid" class="grid"></div></section><section class="panel" id="result"><h2>Tu quiniela</h2><label>Ganadora (opcional)</label><select id="winner" onchange="win=this.value;persist();renderSummary()"></select><div id="notice" role="status"></div><div id="summary"></div><div class="bar"><button onclick="save()">Guardar</button><button onclick="downloadText()">Descargar lista</button><button class="gold" onclick="downloadPNG()">Descargar imagen</button><button onclick="share()">Compartir enlace</button><button onclick="shareImage()">Compartir imagen</button></div></section><p>Catálogo: <a href="https://conandaily.com/2026/11/18/list-of-miss-universe-2026-candidates/" target="_blank">lista original de participantes</a> · <a href="https://www.businessinsider.com/miss-universe-pageant-contestants-photos-2026-11" target="_blank">galería de retratos</a>. Se muestran únicamente las 30 semifinalistas clasificadas. Quinielas guardadas en este navegador; comparte el enlace o imagen con tus amigos. No hay servidor compartido.</p><p>Top 30: <a href="https://www.eluniverso.com/entretenimiento/cine-y-television/miss-universo-2026-este-es-el-top-30-que-avanza-a-la-siguiente-ronda-nota/" target="_blank" rel="noopener">resultados del 24 de noviembre de 2026</a>.</p></main><div class="sticky"><button onclick="setStage(12);$('heading').scrollIntoView()">Ver Top 30</button><button class="gold" id="next" onclick="advance()">Continuar</button></div><script>
+const raw=`Albania|Jogersa Beqiri
+Argentina|Daiana Pereyra
+Armenia|Arena Zeynalian
+Aruba|Elizabeth Johnson
+Australia|Caitlin Worthington
+Bahamas|Shwandra Henfield
+Bangladés|Samira Khan Mahi
+Bielorrusia|Aliya Karotkaya
+Bélgica|Olga Lombardo
+Belice|Caleigh-Rose West
+Bolivia|Valeria Mena
+Bonaire|Carolina Porras
+Botsuana|Dabilo Moses
+Brasil|Marcella Kozinski
+Islas Vírgenes Británicas|Orealia Thomas
+Cabo Verde|Armandina Cunha
+Camboya|Rthna Than
+Camerún|Audrey Black
+Canadá|Aslihan Morali
+Islas Caimán|Juliana Myers
+Chile|Dominga López
+China|Sabrina Wang
+Colombia|María Alejandra López
+Costa Rica|Mariale Acosta
+Croacia|Antea Mršić
+Cuba|Mia Dio
+Curazao|Bianty Rojer-Gomperts
+República Checa|Dominika Kotoučková
+RD Congo|Jessi Kalambayi
+Dinamarca|Fie Rose Lindegaard
+República Dominicana|Melissa Núñez
+Ecuador|Dalia Bucaram
+Egipto|Sonia Gergis
+El Salvador|Sofia Córdova
+Guinea Ecuatorial|Isabel Mbomio
+Estonia|Emili Denneng
+Etiopía|Bruktawit Belete
+Finlandia|Veera Grönlund
+Francia|Garance Authié
+Alemania|Celina Weil
+Ghana|Belvy Naa Teide Ofori
+Gran Bretaña|Angela Aumonier
+Grecia|Olivia Vasilopoulos
+Guadalupe|Chloé Deher
+Guatemala|María Adelina Castillo
+Guinea|Justine Kamara
+Guyana|Angel Bhathal
+Haití|Tatenda Rameau
+Honduras|Luisa Pineda
+Hong Kong|Jennifer Kraft Zhou
+Hungría|Kamila Kiss
+Islandia|Sigríður Hrafnkelsdóttir Ozk
+India|Kaziah Liz Mejo
+Irak|Samantha Slewa
+Irlanda|Aideen Howard
+Israel|Danielle Yablonka
+Italia|Giada Folcia
+Jamaica|Celene Hall
+Japón|Sayuki Ito
+Jordania|Destiny Anbar
+Kazajistán|Alina Ekaterinecheva
+Kenia|Jean Ojiro
+Kosovo|Evisa Pacolli
+Kirguistán|Medina Ermekova
+Letonia|Lasma Kuhtarska
+Líbano|Perla Harb
+Lituania|Olga Bykadorova
+Macao|Xuhe Hou
+Malta|Francesca Mercieca
+Martinica|Larissa Ségarel
+Mayotte|Maëva Toumbou Dani
+México|María Vargas
+Moldavia|Dorina Darii
+Mongolia|Namuunaa Otgonbaatar
+Montenegro|Maria Aleksandra Ivezaj
+Myanmar|May Grace Perry
+Namibia|Charene Labuschagne
+Países Bajos|Melissa Bottema
+Nueva Zelanda|Georgia Waddington
+Nicaragua|Jasmine Blandford
+Nigeria|Danielle Adewusi
+Noruega|Abelone Smedsrud
+Pakistán|Misbah Arshad
+Panamá|Gabriela González
+Paraguay|Gretha Matiauda
+Perú|Luren Márquez
+Filipinas|Bea Millan-Windorski
+Polonia|Vivica Lewandowski
+Portugal|Isabela Santos
+Puerto Rico|Jennifer Barreto
+Reunión|Abigaëlle Tailamée
+Rumania|Sabina Parmac
+Rusia|Alexandra Stashkevich
+Santa Lucía|Bernella Velinor
+San Martín|Elle Duncan
+Serbia|Nikolina Vujičić
+Sierra Leona|Katti Fofanah
+Eslovaquia|Anna Lickova
+Sudáfrica|Bajabulise Thela
+Corea del Sur|Kim Yurim
+España|Susana Lucia Medina
+Sri Lanka|Nimhara Sasindi
+Surinam|Maruschka Sahiboe
+Suecia|Josefin Strand
+Suiza|Itiya Dube
+Tanzania|Queenelizabeth Makune
+Trinidad y Tobago|Vinita Manoo
+Túnez|Sarrah Brahmi
+Islas Turcas y Caicos|Selena Grant
+Uganda|Mitchelle Daka
+Ucrania|Anna Nikonova
+Estados Unidos|Justus Kelley
+Islas Vírgenes de EE. UU.|Jenna-Monét Queeley
+Uruguay|Lucía Piñeyro
+Uzbekistán|Ziedakhon Sharipova
+Venezuela|Clara Vegas`;
+const photos={'Albania':'6af72bc80cc3ffba8779cd0e','Argentina':'6af72c43cbe2120470735296','Brasil':'6af72d98cbe21204707352a2','Chile':'6af72ea0cbe21204707352ad','Colombia':'6af72ed20cc3ffba8779cd3e','Ecuador':'6af73059cbe21204707352bd'};const candidates=raw.split('\n').map((s,id)=>{let [country,name]=s.split('|');return {id:String(id),country,name,photo:country==='Puerto Rico'?'https://img.ainou.app/options/455b74e1-fac3-4d3b-928a-16027bf6c14d.webp':photos[country]?'https://i.insider.com/'+photos[country]+'?width=200':''}}).sort((a,b)=>a.country.localeCompare(b.country,'es'));/* MU26_TOP30_FILTER */const eligibleTop30=new Set(["Nueva Zelanda", "Chile", "Brasil", "India", "Países Bajos", "Islas Turcas y Caicos", "Perú", "Cuba", "Serbia", "República Dominicana", "Curazao", "Estados Unidos", "Israel", "Ecuador", "Puerto Rico", "Tanzania", "México", "Guinea", "Colombia", "Ucrania", "Panamá", "Costa Rica", "Uganda", "Filipinas", "Francia", "Etiopía", "Bélgica", "Venezuela", "RD Congo", "Nicaragua"]);for(let i=candidates.length-1;i>=0;i--){if(!eligibleTop30.has(candidates[i].country))candidates.splice(i,1);}if(candidates.length!==30)throw new Error("Catálogo Top 30 inválido");const $=id=>document.getElementById(id), get=id=>candidates.find(c=>c.id===id), norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();let stage=12,top12=[],top5=[],win='',key='',records={};try{records=JSON.parse(localStorage.getItem('mu26records')||'{}')}catch{};function data(){return {name:$('name').value.trim(),top12:[...top12],top5:[...top5],win}}function persist(){if(!key&&$('name').value.trim())key=Date.now().toString();if(key){records[key]=data();try{localStorage.setItem('mu26records',JSON.stringify(records));return true}catch{$('notice').textContent='No se pudo guardar en este navegador. Descarga la quiniela para conservarla.';return false}}return false}function options(){let sel=$('saved');sel.replaceChildren(new Option('Quinielas guardadas',''));Object.entries(records).forEach(([k,v])=>sel.add(new Option(v.name,k)));sel.value=key}function save(){if(!$('name').value.trim()){alert('Escribe tu nombre');return false}if(!key)key=Date.now().toString();let ok=persist();options();$('notice').textContent=ok?'Quiniela guardada en este dispositivo':'Guardado local no disponible; puedes descargarla.';return true}function newPlayer(){if((top12.length||top5.length)&&!$('name').value.trim()&&!confirm('La quiniela actual no tiene nombre. ¿Descartarla?'))return;persist();history.replaceState(null,'',location.href.split('#')[0]);key='';top12=[];top5=[];win='';$('name').value='';stage=12;$('search').value='';options();render();$('name').focus()}function loadPlayer(k){persist();if(!records[k])return;key=k;let v=records[k];$('name').value=v.name;top12=[...new Set((v.top12||[]).filter(get))].slice(0,12);top5=[...new Set((v.top5||[]).filter(id=>top12.includes(id)))].slice(0,5);win=top5.includes(v.win)?v.win:"";stage=12;$('search').value='';options();render()}function setStage(n){if(n===5&&top12.length!==12){$('status').textContent='Completa primero las 12 candidatas.';return}stage=n;$('search').value='';render()}function toggle(id){let arr=stage===12?top12:top5;if(arr.includes(id)){arr.splice(arr.indexOf(id),1);if(stage===12)top5=top5.filter(x=>x!==id);if(!top5.includes(win))win=''}else if(arr.length<stage)arr.push(id);else{alert('Ya elegiste '+stage+' candidatas. Quita una para cambiarla.');return}persist();options();render()}function render(){let arr=stage===12?top12:top5;$('heading').textContent='Top '+stage+' · '+arr.length+'/'+stage;$('status').textContent=arr.length===stage?'Selección completa. Pulsa Continuar.':'Te faltan '+(stage-arr.length)+' candidatas.';$('b5').disabled=top12.length!==12;$('next').disabled=arr.length!==stage;$('hint').textContent=stage===12?'Top 30 oficial. Elige 12 de las 30 clasificadas.':'Elige cinco de las doce seleccionadas.';$('b12').className=stage===12?'gold':'';$('b5').className=stage===5?'gold':'';$('next').textContent=stage===12?'Continuar al Top 5':'Ver mi quiniela';$('picks').replaceChildren();arr.forEach(id=>{let b=document.createElement('button');b.className='pill';b.textContent=get(id).country+' ×';b.onclick=()=>toggle(id);$('picks').append(b)});$('grid').replaceChildren();let q=norm($('search').value);let visible=candidates.filter(c=>(stage===12||top12.includes(c.id))&&norm(c.country+' '+c.name).includes(q));$('catalogCount').textContent=visible.length+' de '+(stage===12?candidates.length:top12.length)+' candidatas · orden alfabético';visible.forEach(c=>{let b=document.createElement('button');b.className='candidate '+(arr.includes(c.id)?'chosen':'');b.onclick=()=>toggle(c.id);b.setAttribute('aria-pressed',arr.includes(c.id));let ph=document.createElement('span');ph.className='placeholder';ph.textContent=c.name.split(' ').map(x=>x[0]).slice(0,2).join('');if(c.photo){let im=new Image();im.loading='lazy';im.src=c.photo;im.alt='Retrato de '+c.name;im.onerror=()=>im.replaceWith(ph);b.append(im)}else b.append(ph);let t=document.createElement('span'),s=document.createElement('strong'),n=document.createElement('small');s.textContent=c.country+(arr.includes(c.id)?' ✓':'');n.textContent=c.name;t.append(s,n);b.append(t);$('grid').append(b)});$('winner').replaceChildren(new Option('Sin elegir',''));top5.forEach(id=>$('winner').add(new Option(get(id).country,id)));$('winner').value=win;renderSummary()}function advance(){if(stage===12){if(top12.length!==12){alert('Selecciona las 12 candidatas primero');return}stage=5;$('search').value='';render();$('heading').scrollIntoView({behavior:'smooth'})}else{if(top5.length!==5){alert('Selecciona las 5 finalistas');return}$('result').scrollIntoView({behavior:'smooth'})}}function resultText(){let d=data();return 'MISS UNIVERSO 2026\nQuiniela de '+(d.name||'Participante')+'\n\nTOP 12 ('+top12.length+'/12)\n'+top12.map(id=>'• '+get(id).country+' — '+get(id).name).join('\n')+'\n\nTOP 5 ('+top5.length+'/5)\n'+top5.map(id=>'• '+get(id).country+' — '+get(id).name).join('\n')+'\n\nGANADORA: '+(win?get(win).country:'Sin elegir')}function renderSummary(){$('summary').textContent=resultText()}function ready(){if(top12.length!==12||top5.length!==5){alert('Completa el Top 12 y Top 5');return false}return save()}function dl(blob,ext){if(!blob){$('notice').textContent='No se pudo generar el archivo.';return}let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='quiniela-'+($('name').value.trim().replace(/[^\p{L}\p{N}-]+/gu,'-')||'miss')+'.'+ext;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),60000)}function downloadText(){if(ready())dl(new Blob([resultText()],{type:'text/plain;charset=utf-8'}),'txt')}function makePNG(){let c=document.createElement('canvas');c.width=1080;c.height=1500;let x=c.getContext('2d');x.fillStyle='#17121d';x.fillRect(0,0,1080,1500);x.strokeStyle='#e8c585';x.lineWidth=3;x.strokeRect(25,25,1030,1450);x.textAlign='center';x.fillStyle='#e8c585';x.font='58px Georgia';x.fillText('MISS UNIVERSO 2026',540,115);x.fillStyle='#fff';x.font='36px system-ui';x.fillText('Quiniela de '+$('name').value.trim(),540,180,950);x.textAlign='left';function group(title,arr,y){x.fillStyle='#e8c585';x.font='bold 32px system-ui';x.fillText(title,75,y);arr.forEach((id,i)=>{let a=get(id),col=i%2,row=Math.floor(i/2),xx=75+col*480,yy=y+65+row*87;x.fillStyle='#fff';x.font='bold 26px system-ui';x.fillText(a.country,xx,yy,440);x.fillStyle='#c3b9ca';x.font='22px system-ui';x.fillText(a.name,xx,yy+28,440)})}group('TOP 12',top12,270);group('TOP 5',top5,880);x.fillStyle='#e8c585';x.font='bold 32px system-ui';x.fillText('GANADORA',75,1240);x.fillStyle='#fff';x.font='38px Georgia';x.fillText(win?get(win).country:'Sin elegir',75,1300);return c}function downloadPNG(){if(!ready())return;makePNG().toBlob(b=>dl(b,'png'),'image/png')}async function shareImage(){if(!ready())return;let blob=await new Promise(r=>makePNG().toBlob(r,'image/png'));if(!blob)return;let file=new File([blob],'quiniela.png',{type:'image/png'});try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Mi quiniela'});return}}catch(e){if(e.name==='AbortError')return}dl(blob,'png')}async function share(){if(!ready())return;let url=new URL(location.href);url.hash=encodeURIComponent(JSON.stringify(data()));try{if(navigator.share)await navigator.share({title:'Mi quiniela Miss Universo',url:url.href});else{await navigator.clipboard.writeText(url.href);alert('Enlace copiado')}}catch(e){if(e.name!=='AbortError')prompt('Copia este enlace',url.href)}}$('name').oninput=()=>{persist();options();renderSummary()};try{if(location.hash){let v=JSON.parse(decodeURIComponent(location.hash.slice(1)));$('name').value=String(v.name||'').slice(0,60);top12=[...new Set(v.top12.filter(get))].slice(0,12);top5=[...new Set(v.top5.filter(id=>top12.includes(id)))].slice(0,5);win=top5.includes(v.win)?v.win:''}}catch{}options();render();</script></body></html>
